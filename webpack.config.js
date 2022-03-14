@@ -1,4 +1,5 @@
 const path = require("path");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: "./js/app.js",
@@ -12,6 +13,12 @@ module.exports = {
     compress: true,
     port: 3001,
     historyApiFallback: true
+  },
+  plugins: [
+    new Dotenv()
+  ],
+  node: {
+    fs: 'empty'
   },
   module: {
     rules: [

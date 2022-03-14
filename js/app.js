@@ -1,8 +1,11 @@
-let weather = {
-  apiKey: "b44e615cadeb473384284604202209",
-  fetchWeather: function (city) {
+require('dotenv').config();
 
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=${weather.apiKey}&q=${city}&days=3`)
+const api_key = process.env.API_KEY
+
+let weather = {
+
+  fetchWeather: function (city) {
+    fetch(`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${city}&days=3`)
       .then((response) => response.json())
       .then(data => {
           this.displayWeather(data);
@@ -45,9 +48,6 @@ let weather = {
       let temp = obj.day.avgtemp_c
       let dayName = getDayName(date)
       let iconNum = icon.slice(-7)
-      console.log(dayName)
-      console.log(iconNum)
-      console.log(temp)
       let newLiElement = document.createElement('li')
       newLiElement = `<li>
           <span class="day">${dayName}</span><img src="assets/icons/day/${iconNum}"/>
@@ -64,32 +64,31 @@ let weather = {
       return this.fetchWeather(cityToFind)
     }
 }
-const add_city_button = document.querySelector('#add-city')
-const find_city_button = document.querySelector('.find-city button')
-const app_container = document.querySelector('#app')
-const module_weather = document.querySelector('.module__weather')
-const close_search_button = document.querySelector('.close-search')
-const close_weather_display = document.querySelector('.close_weather_display')
+const addCityButton = document.querySelector('#add-city')
+const findCityButton = document.querySelector('.find-city button')
+const appContainer = document.querySelector('#app')
+const moduleWeather = document.querySelector('.module__weather')
+const closeSearchButton = document.querySelector('.close-search')
+const closeWeatherDisplay = document.querySelector('.close_weather_display')
 
-add_city_button.addEventListener('click', function (e) {
+addCityButton.addEventListener('click', function (e) {
   e.preventDefault();
-  app_container.style.display = 'flex'
+  appContainer.style.display = 'flex'
 })
 
-find_city_button.addEventListener('click', function (e) {
+findCityButton.addEventListener('click', function (e) {
   e.preventDefault()
   weather.search()
-  module_weather.style.display = 'flex'
+  moduleWeather.style.display = 'flex'
+})
+closeSearchButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  appContainer.style.display = 'none'
 })
 
-close_search_button.addEventListener('click', (e) => {
+closeWeatherDisplay.addEventListener('click', (e) => {
   e.preventDefault()
-  app_container.style.display = 'none'
-})
-
-close_weather_display.addEventListener('click', (e) => {
-  e.preventDefault()
-  module_weather.style.display = 'none'
+  moduleWeather.style.display = 'none'
 })
 
 
